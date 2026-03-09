@@ -122,7 +122,7 @@ const CreateLottery: React.FC = () => {
                 type="pending"
                 message="Lottery creation submitted. Waiting for confirmation..."
             />
-            <div className="container" style={{ maxWidth: '600px' }}>
+            <div className="container page-shell page-shell--compact">
                 <Link to="/" className="icon-btn mb-6">
                     <svg className="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                     Back to Dashboard

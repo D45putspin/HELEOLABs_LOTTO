@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="header">
-        <div className="container flex justify-between items-center py-4">
+        <div className="container header-bar flex justify-between items-center py-4">
           <Link to="/" className="brand">HELEOLABS LOTTO</Link>
 
           {/* Desktop Navigation */}
@@ -72,7 +72,7 @@ const Header: React.FC = () => {
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-inner">
               <div className="mobile-menu-header">
-                <div className="brand" style={{ fontSize: '1.2rem' }}>HELEOLABS LOTTO / MENU</div>
+                <div className="brand mobile-menu-brand">HELEOLABS LOTTO / MENU</div>
                 <button onClick={closeMenu} className="btn-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
                 </button>
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                         <span className="tech-label text-xs">CONNECTED WALLET</span>
                         <span className="status-indicator online"></span>
                       </div>
-                      <div className="tech-value text-sm truncate bg-black/30 p-2 rounded">
+                      <div className="mobile-wallet-address tech-value text-sm">
                         {address || 'Connected Wallet'}
                       </div>
                       <button onClick={() => { disconnect(); closeMenu(); }} className="btn-secondary w-full py-2">
@@ -124,7 +124,7 @@ const Header: React.FC = () => {
               </nav>
 
               <div className="mobile-menu-footer">
-                <p className="tech-label text-[10px] text-center opacity-50">HELEOLABS LOTTO v1.0</p>
+                <p className="tech-label mobile-menu-version text-center">HELEOLABS LOTTO v1.0</p>
               </div>
             </div>
           </div>
@@ -138,10 +138,15 @@ const Header: React.FC = () => {
         .hamburger-btn {
           display: none;
           background: transparent;
-          border: none;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
           color: white;
           cursor: pointer;
-          padding: 8px;
+          padding: 10px;
+          align-items: center;
+          justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
         }
         
         @media (max-width: 768px) {
@@ -170,7 +175,7 @@ const Header: React.FC = () => {
           position: absolute;
           top: 0;
           right: 0;
-          width: 320px;
+          width: min(360px, 100vw);
           max-width: 90vw;
           height: 100%;
           background: rgba(10, 10, 10, 0.9);
@@ -188,6 +193,11 @@ const Header: React.FC = () => {
           flex-direction: column;
           height: 100%;
           padding: 24px;
+          overflow-y: auto;
+        }
+
+        .mobile-menu-brand {
+          font-size: 1.2rem;
         }
 
         .mobile-menu-header {
@@ -245,6 +255,21 @@ const Header: React.FC = () => {
         .mobile-menu-footer {
           margin-top: auto;
           padding-top: 24px;
+        }
+
+        @media (max-width: 520px) {
+          .mobile-menu {
+            width: 100vw;
+            max-width: 100vw;
+          }
+
+          .mobile-menu-inner {
+            padding: 20px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+          }
+
+          .mobile-menu-brand {
+            font-size: 0.95rem;
+          }
         }
 
         @keyframes fadeIn {

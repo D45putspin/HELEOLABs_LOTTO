@@ -89,11 +89,13 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
                 .modal-content {
                     max-width: 400px;
                     width: 100%;
+                    max-height: calc(100vh - 40px);
                     padding: 32px;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     border: 1px solid rgba(255, 255, 255, 0.1);
+                    overflow-y: auto;
                 }
                 .modal-message {
                     max-width: 100%;
@@ -130,6 +132,18 @@ const NotificationModal: React.FC<NotificationModalProps> = ({
                 @keyframes spin {
                     from { transform: rotate(0deg); }
                     to { transform: rotate(360deg); }
+                }
+                @media (max-width: 640px) {
+                    .modal-overlay {
+                        align-items: flex-end;
+                        padding: 12px;
+                    }
+                    .modal-content {
+                        max-width: none;
+                        max-height: calc(100vh - 24px);
+                        padding: 24px 20px;
+                        border-radius: 20px 20px 12px 12px;
+                    }
                 }
             `}</style>
         </div>

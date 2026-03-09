@@ -166,10 +166,10 @@ const Dashboard: React.FC = () => {
             <div className="container">
                 {/* Wallet Quick Stats */}
                 {connected && (
-                    <div className="flex flex-wrap gap-6 mb-6 p-4 bg-hover border rounded-lg">
+                    <div className="dashboard-wallet-bar flex flex-wrap gap-6 mb-6 p-4 bg-hover border rounded-lg">
                         <div>
                             <div className="tech-label">Connected Address</div>
-                            <div className="tech-display text-sm truncate" style={{ maxWidth: '300px' }}>{address}</div>
+                            <div className="dashboard-address tech-display text-sm truncate">{address}</div>
                         </div>
                         <div>
                             <div className="tech-label">Available Balance</div>
@@ -178,13 +178,13 @@ const Dashboard: React.FC = () => {
                     </div>
                 )}
 
-                <div className="flex justify-between items-end mb-6">
+                <div className="dashboard-hero flex justify-between items-end mb-6">
                     <div>
                         <h1>Active Lotteries</h1>
                         <p className="text-secondary">Browse and participate in decentralized jackpots on Hathor Network.</p>
                     </div>
                     {connected && (
-                        <Link to="/create" className="btn-primary">
+                        <Link to="/create" className="btn-primary dashboard-cta">
                             Launch New Lottery
                         </Link>
                     )}
@@ -209,7 +209,7 @@ const Dashboard: React.FC = () => {
                         {lotteries.map((lottery) => (
                             <div key={lottery.id} className="lottery-card">
                                 <div className="card-header">
-                                    <div className="flex gap-2">
+                                    <div className="lottery-status-row flex gap-2">
                                         <div className={lottery.state === 'OPEN' ? 'badge badge-success' : 'badge badge-error'}>
                                             {lottery.state}
                                         </div>
@@ -225,7 +225,7 @@ const Dashboard: React.FC = () => {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="tech-label">{lottery.id.substring(0, 12)}...</div>
+                                    <div className="tech-label lottery-card-id">{lottery.id.substring(0, 12)}...</div>
                                 </div>
 
                                 <h2>{lottery.description}</h2>
@@ -236,7 +236,7 @@ const Dashboard: React.FC = () => {
                                 </div>
 
                                 <div className="card-footer">
-                                    <div className="flex justify-between mb-4">
+                                    <div className="lottery-card-metrics flex justify-between mb-4">
                                         <div>
                                             <div className="tech-label">Pot</div>
                                             <div className="tech-value">{lottery.pot} HTR</div>

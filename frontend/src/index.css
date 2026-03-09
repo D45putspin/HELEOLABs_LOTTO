@@ -8,6 +8,9 @@
   --border-strong: rgba(255, 255, 255, 0.2);
   --glass-bg: rgba(255, 255, 255, 0.02);
   --accent: #ffffff;
+  --main-color: #f2c94c;
+  --success-color: #4ade80;
+  --error-color: #ff6b6b;
 }
 
 ::selection {
@@ -23,6 +26,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   letter-spacing: -0.01em;
+  overflow-x: hidden;
 }
 
 /* Atmospheric BG */
@@ -40,6 +44,19 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 6rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.page-shell {
+  width: 100%;
+}
+
+.page-shell--compact {
+  max-width: 600px;
+}
+
+.detail-page {
+  max-width: 900px;
 }
 
 /* Header & Brand */
@@ -73,6 +90,8 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
+  line-height: 1.4;
 }
 
 .brand::before {
@@ -100,6 +119,10 @@ header {
 
 .icon-btn:hover {
   color: #fff;
+}
+
+.header-bar {
+  gap: 1rem;
 }
 
 .icon {
@@ -170,7 +193,9 @@ h2 {
 
 /* Buttons */
 button,
-.btn {
+.btn,
+.btn-primary,
+.btn-secondary {
   font-family: 'Spline Sans Mono', monospace;
   font-size: 0.7rem;
   font-weight: 600;
@@ -187,9 +212,14 @@ button,
   border: 1px solid var(--border-strong);
   background: transparent;
   color: white;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
 }
 
-button:hover:not(:disabled) {
+button:hover:not(:disabled),
+.btn-primary:hover,
+.btn-secondary:hover {
   background: white;
   color: black;
 }
@@ -204,6 +234,11 @@ button[type="submit"] {
 .btn-primary:hover:not(:disabled) {
   background: transparent;
   color: white;
+}
+
+a.btn-primary,
+a.btn-secondary {
+  text-decoration: none;
 }
 
 button:disabled {
@@ -255,10 +290,9 @@ button:disabled {
   color: #555;
 }
 
-/* Detail View Layout */
 .detail-layout {
-  display: grid;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  align-items: start;
 }
 
 .stats-grid {
@@ -274,6 +308,135 @@ button:disabled {
 .stat-item {
   background: var(--bg-color);
   padding: 1.5rem;
+}
+
+.detail-summary {
+  min-width: 0;
+}
+
+.detail-hero {
+  gap: 1rem;
+}
+
+.detail-title {
+  margin-bottom: 0.25rem;
+  font-size: 2rem;
+}
+
+.detail-id,
+.detail-address,
+.mobile-wallet-address,
+.dashboard-address,
+.payout-card-hash {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.detail-sidebar {
+  min-width: 0;
+}
+
+.detail-status-card {
+  background: rgba(242, 201, 76, 0.08);
+  border: 1px dashed rgba(242, 201, 76, 0.45);
+}
+
+.detail-status-label,
+.detail-status-value {
+  color: var(--main-color);
+}
+
+.detail-status-value {
+  letter-spacing: 0.05em;
+}
+
+.detail-winner-card {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.payout-label {
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.payout-card {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.payout-card--winner {
+  border-color: rgba(74, 222, 128, 0.25);
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.payout-card--creator {
+  border-color: rgba(242, 201, 76, 0.25);
+  background: rgba(242, 201, 76, 0.08);
+}
+
+.payout-card-header {
+  gap: 1rem;
+}
+
+.payout-card-title {
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.payout-card-link {
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.payout-card-link:hover {
+  color: white;
+}
+
+.payout-card-hash {
+  font-size: 0.68rem;
+  line-height: 1.45;
+  opacity: 0.7;
+}
+
+.dashboard-wallet-bar {
+  align-items: flex-start;
+}
+
+.dashboard-address {
+  max-width: 320px;
+}
+
+.dashboard-hero {
+  gap: 1.5rem;
+}
+
+.lottery-status-row {
+  flex-wrap: wrap;
+}
+
+.lottery-card-id {
+  flex-shrink: 0;
+}
+
+.lottery-card-metrics {
+  gap: 1.5rem;
+}
+
+.mobile-wallet-address {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.mobile-menu-version {
+  opacity: 0.5;
+  letter-spacing: 0.14em;
 }
 
 /* Forms */
@@ -353,6 +516,10 @@ input::placeholder {
   align-items: flex-start;
 }
 
+.items-baseline {
+  align-items: baseline;
+}
+
 .items-end {
   align-items: flex-end;
 }
@@ -419,6 +586,11 @@ input::placeholder {
   padding-bottom: 1rem;
 }
 
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 .py-10 {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
@@ -446,6 +618,14 @@ input::placeholder {
 
 .mb-6 {
   margin-bottom: 1.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 .mt-4 {
@@ -482,6 +662,10 @@ input::placeholder {
 
 .text-right {
   text-align: right;
+}
+
+.block {
+  display: block;
 }
 
 .text-xs {
@@ -568,6 +752,22 @@ input::placeholder {
 
 .space-y-4>*+* {
   margin-top: 1rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+.opacity-60 {
+  opacity: 0.6;
+}
+
+.opacity-70 {
+  opacity: 0.7;
 }
 
 /* Nav Link */
@@ -772,4 +972,105 @@ label {
 /* Border dashed */
 .border-dashed {
   border-style: dashed;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 4rem 1.25rem;
+  }
+
+  .header-bar {
+    gap: 0.75rem;
+  }
+
+  .brand {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+  }
+
+  h1 {
+    font-size: 2.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card,
+  .lottery-card {
+    padding: 1.25rem;
+  }
+
+  .card-header {
+    gap: 0.75rem;
+  }
+
+  .dashboard-wallet-bar,
+  .dashboard-hero,
+  .detail-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-cta {
+    width: 100%;
+  }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-title {
+    font-size: 1.8rem;
+  }
+
+  .detail-id {
+    white-space: normal;
+  }
+
+  footer .container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  .brand {
+    font-size: 0.64rem;
+  }
+
+  .brand::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .card,
+  .lottery-card,
+  .stat-item {
+    padding: 1rem;
+  }
+
+  .card-header,
+  .lottery-card-metrics,
+  .payout-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-address {
+    max-width: none;
+  }
+
+  .lottery-card-metrics .text-right {
+    text-align: left;
+  }
 }

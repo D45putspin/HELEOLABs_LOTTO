@@ -331,7 +331,7 @@ const LotteryDetail: React.FC = () => {
                 type="pending"
                 message="Transaction submitted. Waiting for blockchain confirmation..."
             />
-            <div className="container" style={{ maxWidth: '900px' }}>
+            <div className="container page-shell detail-page">
                 <Link to="/" className="icon-btn mb-6">
                     <svg className="icon" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                     Back to Dashboard
@@ -343,16 +343,16 @@ const LotteryDetail: React.FC = () => {
                     </div>
                 )}
 
-                <div className="grid gap-6" style={{ gridTemplateColumns: '2fr 1fr' }}>
+                <div className="detail-layout grid gap-6">
                     {/* Contract Info */}
-                    <div className="card">
-                        <div className="flex justify-between items-start mb-6">
+                    <div className="card detail-summary">
+                        <div className="detail-hero flex justify-between items-start mb-6">
                             <div>
                                 <div className={`badge mb-2 ${lottery.state === 'OPEN' ? 'badge-success' : 'badge-error'}`}>
                                     {lottery.state}
                                 </div>
-                                <h1 className="mb-1" style={{ fontSize: '2rem' }}>{lottery.description}</h1>
-                                <p className="tech-display text-secondary text-xs truncate">ID: {id}</p>
+                                <h1 className="detail-title mb-1">{lottery.description}</h1>
+                                <p className="tech-display text-secondary text-xs detail-id">ID: {id}</p>
                             </div>
                         </div>
 
@@ -377,17 +377,14 @@ const LotteryDetail: React.FC = () => {
                     </div>
 
                     {/* Actions Sidebar */}
-                    <div className="space-y-4">
+                    <div className="detail-sidebar space-y-4">
                         <div className="card">
                             <h3 className="mb-4">Actions</h3>
 
                             {isTxPending(id || '') ? (
-                                <div className="p-4 rounded text-center mb-4 animate-pulse" style={{
-                                    background: 'rgba(138, 43, 226, 0.1)',
-                                    border: '1px dashed var(--main-color)'
-                                }}>
-                                    <p className="tech-label mb-1" style={{ color: 'var(--main-color)' }}>Network Status</p>
-                                    <p className="font-bold" style={{ color: 'var(--main-color)', letterSpacing: '0.05em' }}>WAITING CONFIRMATION</p>
+                                <div className="detail-status-card p-4 rounded text-center mb-4 animate-pulse">
+                                    <p className="tech-label detail-status-label mb-1">Network Status</p>
+                                    <p className="font-bold detail-status-value">WAITING CONFIRMATION</p>
                                 </div>
                             ) : lottery.state === 'OPEN' ? (
                                 <button
@@ -399,9 +396,9 @@ const LotteryDetail: React.FC = () => {
                                 </button>
                             ) : (
                                 <div className="space-y-4">
-                                    <div className="p-4 bg-hover rounded text-center">
+                                    <div className="detail-winner-card p-4 rounded text-center">
                                         <p className="tech-label mb-1">Winner</p>
-                                        <p className="tech-value truncate text-sm">{lottery.winner}</p>
+                                        <p className="tech-value text-sm detail-address">{lottery.winner}</p>
                                     </div>
 
                                     {(address?.toLowerCase() === lottery.winner?.toLowerCase() || isOwner) && (
@@ -423,7 +420,7 @@ const LotteryDetail: React.FC = () => {
                             )}
 
                             {isOwner && lottery.state === 'OPEN' && (
-                                <div className="mt-4 pt-4 border-t border-gray-700">
+                                <div className="mt-4 pt-4 border-t">
                                     <button
                                         onClick={handleDrawWinner}
                                         disabled={drawing || lottery.participants.length === 0}
@@ -441,39 +438,39 @@ const LotteryDetail: React.FC = () => {
                             )}
 
                             {lottery.state === 'CLOSED' && (payouts.winner || payouts.creator) && (
-                                <div className="mt-4 pt-4 border-t border-gray-700">
-                                    <h4 className="tech-label text-[10px] mb-3 opacity-70">PAYOUT TRANSACTIONS</h4>
+                                <div className="mt-4 pt-4 border-t">
+                                    <h4 className="tech-label payout-label mb-3">Payout Transactions</h4>
                                     <div className="space-y-3">
                                         {payouts.winner && (
-                                            <div className="p-3 bg-success/10 border border-success/20 rounded">
-                                                <div className="flex justify-between items-center mb-1">
-                                                    <span className="text-[10px] font-bold text-success">WINNER PAYOUT</span>
+                                            <div className="payout-card payout-card--winner p-4 rounded">
+                                                <div className="payout-card-header flex justify-between items-center mb-1">
+                                                    <span className="payout-card-title">Winner Payout</span>
                                                     <a
                                                         href={`https://explorer.hathor.network/transaction/${payouts.winner}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-[10px] underline hover:text-white"
+                                                        className="payout-card-link"
                                                     >
                                                         VIEW TX
                                                     </a>
                                                 </div>
-                                                <p className="tech-display text-[9px] truncate opacity-60">{payouts.winner}</p>
+                                                <p className="tech-display payout-card-hash">{payouts.winner}</p>
                                             </div>
                                         )}
                                         {payouts.creator && (
-                                            <div className="p-3 bg-main/10 border border-main/20 rounded">
-                                                <div className="flex justify-between items-center mb-1">
-                                                    <span className="text-[10px] font-bold text-main">CREATOR FEE (10 HTR + COMM)</span>
+                                            <div className="payout-card payout-card--creator p-4 rounded">
+                                                <div className="payout-card-header flex justify-between items-center mb-1">
+                                                    <span className="payout-card-title">Creator Fee (10 HTR + Comm)</span>
                                                     <a
                                                         href={`https://explorer.hathor.network/transaction/${payouts.creator}`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-[10px] underline hover:text-white"
+                                                        className="payout-card-link"
                                                     >
                                                         VIEW TX
                                                     </a>
                                                 </div>
-                                                <p className="tech-display text-[9px] truncate opacity-60">{payouts.creator}</p>
+                                                <p className="tech-display payout-card-hash">{payouts.creator}</p>
                                             </div>
                                         )}
                                     </div>
@@ -483,7 +480,7 @@ const LotteryDetail: React.FC = () => {
 
                         <div className="card">
                             <h3 className="tech-label text-xs mb-3">Contract Info</h3>
-                            <div className="space-y-2 text-xs text-secondary">
+                            <div className="space-y-2 text-xs text-secondary contract-meta">
                                 <div className="flex justify-between">
                                     <span>Creator Fee:</span>
                                     <span>{lottery.commission}%</span>
@@ -492,12 +489,12 @@ const LotteryDetail: React.FC = () => {
                                     <span>Network:</span>
                                     <span>Hathor Localnet</span>
                                 </div>
-                                <div className="flex flex-col gap-1 mt-2 pt-2 border-t border-gray-700">
+                                <div className="flex flex-col gap-1 mt-2 pt-4 border-t">
                                     <span className="flex justify-between items-center">
                                         <span>Creator:</span>
                                         {isOwner && <span className="badge badge-success text-xs">You</span>}
                                     </span>
-                                    <span className="tech-display text-xs truncate" style={{ fontSize: '10px' }}>
+                                    <span className="tech-display text-xs detail-address">
                                         {lottery.creator || '(not set)'}
                                     </span>
                                 </div>
