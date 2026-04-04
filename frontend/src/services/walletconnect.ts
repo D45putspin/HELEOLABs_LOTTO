@@ -54,6 +54,47 @@ const isMobileWalletConnectFlow = () => {
     return /Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent);
 };
 
+const formatRpcDebugPayload = (value: unknown): string | unknown => {
+    try {
+        return JSON.stringify(
+            value,
+            (_key, innerValue) => typeof innerValue === 'bigint' ? `${innerValue.toString()}n` : innerValue,
+            2
+        );
+    } catch {
+        return value;
+    }
+};
+
+const normalizeTxIdCandidate = (value: unknown): string | null => {
+    if (typeof value === 'string' && value.length > 0) return value;
+    if (typeof value === 'number' || typeof value === 'bigint') return String(value);
+    return null;
+};
+
+const extractTxId = (response: any): string | null => {
+    const candidates = [
+        response?.hash,
+        response?.txId,
+        response?.response?.hash,
+        response?.response?.txId,
+        response?.transaction?.hash,
+        response?.response?.transaction?.hash,
+        response?.transaction,
+        response?.response?.transaction,
+        response
+    ];
+
+    for (const candidate of candidates) {
+        const txId = normalizeTxIdCandidate(candidate);
+        if (txId) {
+            return txId;
+        }
+    }
+
+    return null;
+};
+
 export const openHathorWalletDeepLink = (wcUri: string) => {
     if (typeof window === 'undefined') return;
 
@@ -300,7 +341,7 @@ export const WalletConnectService = {
             network,
         };
 
-        console.log('[WC] RPC Params:', JSON.stringify(paramsWithNetwork, null, 2));
+        console.log('[WC] RPC Params:', formatRpcDebugPayload(paramsWithNetwork));
 
         let response: any;
         try {
@@ -311,28 +352,15 @@ export const WalletConnectService = {
             }
             throw error;
         }
-        console.log('[WC] Wallet Response:', JSON.stringify(response, null, 2));
+        console.log('[WC] Wallet Response:', formatRpcDebugPayload(response));
 
         // Robustly extract transaction ID from various possible response formats
         // Some wallets/versions return hash, some txId, some nest it in 'response'
-        let txId = response?.hash ||
-            response?.txId ||
-            response?.response?.hash ||
-            response?.response?.txId ||
-            response?.transaction?.hash ||
-            null;
-
-        // If we still don't have a string ID, but the response itself is a string, use it
-        if (!txId && typeof response === 'string') {
-            txId = response;
-        }
+        const txId = extractTxId(response);
 
         console.log('[WC] Extracted txId:', txId);
 
-        return {
-            ...response,
-            txId: txId
-        };
+        return { txId: txId || '' };
     },
 
     /**
